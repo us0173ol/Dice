@@ -69,7 +69,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="13dp"
         android:id="@+id/finalResultTV"
-        tools:text="Result"
+        android:text="Result"
         android:textSize="34sp"/>
+
+    <TextView
+        android:text="First Roll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/acceleration"
+        android:layout_alignRight="@+id/textView6"
+        android:layout_alignEnd="@+id/textView6"
+        android:id="@+id/firstRollTV"
+        android:textSize="30sp"/>
 
 </RelativeLayout>

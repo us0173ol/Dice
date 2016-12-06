@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private TextView tvResult;
     private TextView tvResult2;
     private TextView finalResult;
+    private TextView firstRollTV;
+    private int firstRoll;
+    private int rollAgain;
+    private boolean firstTurnHappened = false;
 
     Sensor accelerometer;
     SensorManager sm;
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tvResult = (TextView) findViewById(R.id.resultTV);
         tvResult2 = (TextView) findViewById(R.id.reultTV2);
         finalResult = (TextView) findViewById(R.id.finalResultTV);
+        firstRollTV = (TextView) findViewById(R.id.firstRollTV);
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer=sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sm.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
@@ -43,35 +48,39 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
 
-
         btnRoll.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                rollTheDice();
+                if(firstTurnHappened == false) {
+                    rollTheDice();
+                }else if(firstTurnHappened == true){
+                    rollagain();
+                }
             }
 
         });
 
     }
 
-    public void rollTheDice(){
-        Random r1 = new Random();
-        Random r2 = new Random();
-        int result = r1.nextInt(6)+1;
-        int result2 = r2.nextInt(6)+1;
-        tvResult.setText(String.valueOf(result));
-        tvResult2.setText(String.valueOf(result2));
+    public void rollTheDice() {
+
+            Random r1 = new Random();
+            Random r2 = new Random();
+            int result = r1.nextInt(6) + 1;
+            int result2 = r2.nextInt(6) + 1;
+            tvResult.setText(String.valueOf(result));
+            tvResult2.setText(String.valueOf(result2));
 //        hello sleep in github.  2417 examples
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                done();
-            }
-        }, 5000);
-
-
-    }
+//            Handler handler = new Handler();
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    done();
+//                }
+//            }, 3000);
+            determineFirstRoll();
+            winOrLose();
+        }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){
@@ -99,18 +108,81 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
     private void done(){
-        determineFirstRoll();
+
+
         Toast.makeText(this, "Rolled the Dice", Toast.LENGTH_LONG).show();
     }
 
     private void determineFirstRoll(){
-        int dice1 = Integer.parseInt(tvResult.getText().toString());
-        int dice2 = Integer.parseInt(tvResult2.getText().toString());
-        int result = dice1 + dice2;
-        finalResult.setText(result);
 
+        if(firstTurnHappened == false) {
+            int dice1 = Integer.parseInt(tvResult.getText().toString());
+            int dice2 = Integer.parseInt(tvResult2.getText().toString());
+            firstRoll = dice1 + dice2;
+            finalResult.setText("Result: " + firstRoll);
+            firstRollTV.setText("Target: " + firstRoll);
+        }else{
+            System.out.println("determine first roll (else)");
+        }
     }
+    private void winOrLose() {
 
+        if (firstRoll == 2 || firstRoll == 3 || firstRoll == 12) {
+            Toast.makeText(this, "You Lose", Toast.LENGTH_SHORT).show();
+//            tvResult.setText("Lost");
+//            tvResult2.setText("Lost");
+            finalResult.setText("Lost");
+            firstTurnHappened = false;
+        } else if (firstRoll == 7 || firstRoll == 11) {
+            Toast.makeText(this, "You Win", Toast.LENGTH_SHORT).show();
+//            tvResult.setText("Won");
+//            tvResult2.setText("Won");
+            finalResult.setText("Won");
+            firstTurnHappened = false;
+        } else{
+            firstTurnHappened = true;
+            //while (firstRoll > 3 && firstRoll < 7 || firstRoll > 7 && firstRoll < 11) {
+
+//                if (rollAgain == firstRoll) {
+//                    finalResult.setText("You Win");
+//                    firstTurnHappened = false;
+//                } else if (rollAgain == 7) {
+//                    finalResult.setText("You Lose");
+//                    firstTurnHappened = false;
+//                } else {
+                    Toast.makeText(this, "Press Roll to roll again", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+
+    private void rollagain() {
+        if (firstTurnHappened == true){
+            Random r1 = new Random();
+            Random r2 = new Random();
+            int result = r1.nextInt(6) + 1;
+            int result2 = r2.nextInt(6) + 1;
+            tvResult.setText(String.valueOf(result));
+            tvResult2.setText(String.valueOf(result2));
+            rollAgain = result + result2;
+            finalResult.setText("Result: " + rollAgain);
+
+            while (firstRoll > 3 && firstRoll < 7 || firstRoll > 7 && firstRoll < 11) {
+
+                if (rollAgain == firstRoll) {
+                    finalResult.setText("You Win");
+                    firstTurnHappened = false;
+                } else if (rollAgain == 7) {
+                    finalResult.setText("You Lose");
+                    firstTurnHappened = false;
+                } else {
+                    Toast.makeText(this, "Press Roll to roll again", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }else{
+            System.out.println("rollagain (else)");
+        }
+    }
 
 
 }
