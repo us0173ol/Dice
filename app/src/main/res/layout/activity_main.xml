@@ -44,7 +44,7 @@
         android:textSize="40sp"/>
 
     <TextView
-        android:text="Welcome to street dice"
+        android:text="Craps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -76,10 +76,10 @@
         android:text="First Roll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/acceleration"
-        android:layout_alignRight="@+id/textView6"
-        android:layout_alignEnd="@+id/textView6"
         android:id="@+id/firstRollTV"
-        android:textSize="30sp"/>
+        android:textSize="30sp"
+        android:layout_below="@+id/acceleration"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

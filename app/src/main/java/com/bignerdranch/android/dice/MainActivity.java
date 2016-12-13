@@ -51,14 +51,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         btnRoll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                while(wonLost == false) {
+//                while(wonLost == false) {
 
-                    if (firstTurnHappened == true && wonLost == false) {
-                        rollagain();
-                    } else {
+//                    if (firstTurnHappened == true && wonLost == false) {
+//                        rollagain();
+//                    } else {
                         rollTheDice();
-                    }
-                }
+//                    }
+                //}
 
             }
 
